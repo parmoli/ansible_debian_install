@@ -1,0 +1,10 @@
+---
+- name: Install timeshift
+  ansible.builtin.apt:
+    pkg:
+    - timeshift
+    state: present
+
+# TODO
+# - name: Configure timeshift target (@snapshots btrfs subvolume)
+# - name: Configure timeshift snapshotting schedule

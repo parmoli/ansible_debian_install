@@ -1,0 +1,17 @@
+---
+- name: Install the linux environment
+  ansible.builtin.apt:
+    pkg:
+    - command-not-found
+    - bash-completion
+    - plocate
+    - systemd-timesyncd
+    - usbutils
+    - hwinfo
+    - v4l-utils
+    - curl
+    - wget
+    - alacritty
+    - zsh
+    - vim
+    state: present

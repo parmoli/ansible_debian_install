@@ -1,0 +1,9 @@
+---
+- name: Setup main user
+  ansible.builtin.shell: |
+    useradd -m {{ user_name }}
+    echo "{{ user_name }}:{{ user_password }}" | chpasswd
+  ignore_errors: yes
+
+- name: Add user to sudo and other useful groups
+  ansible.builtin.shell:  usermod -aG sudo,adm,dialout,cdrom,floppy,audio,dip,video,plugdev,users,netdev,bluetooth {{ user_name }}

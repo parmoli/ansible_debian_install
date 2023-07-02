@@ -1,0 +1,48 @@
+---
+# Create btrfs subvolumes
+- name: Temporary mount the btrfs partition
+# ansible.builtin.shell: mount "{{ disk_name }}p3" /mnt
+  ansible.posix.mount:
+    path: /mnt
+    src: '{{ root_partition }}'
+    fstype: btrfs
+    state: ephemeral
+
+- name: Delete eventual existing btrfs subvolumes (get subvolume list)
+  ansible.builtin.shell: btrfs subvolume list /mnt
+  register: subvolumes_list
+
+- name: Delete eventual existing btrfs subvolumes
+  ansible.builtin.shell: btrfs subvolume delete /mnt/{{ item | regex_search("@\w*") }}
+  loop: '{{ subvolumes_list.stdout_lines }}'
+
+- name: Create btrfs subvolumes
+  ansible.builtin.shell: |
+    btrfs subvolume create /mnt/@
+    btrfs subvolume create /mnt/@home
+    btrfs subvolume create /mnt/@snapshots
+
+- name: Unmount the btrfs partition
+  ansible.posix.mount:
+    path: /mnt
+    state: unmounted
+
+- name: Mount the root subvolume
+  ansible.builtin.shell: mount -o noatime,compress=zstd:1,autodefrag,space_cache=v2,subvol=@ {{ root_partition }} /mnt
+
+- name: Create the necessary folders to mount the subvolumes and the boot partition
+  ansible.builtin.shell: |
+    mkdir -p /mnt/home
+    mkdir -p /mnt/.snapshots
+    mkdir -p /mnt/boot/efi
+
+- name: Remount the other subvolumes
+  ansible.builtin.shell: |
+    mount -o noatime,compress=zstd:1,autodefrag,space_cache=v2,subvol=@home {{ root_partition }} /mnt/home
+    mount -o noatime,compress=zstd:1,space_cache=v2,subvol=@snapshots {{ root_partition }} /mnt/.snapshots
+
+- name: Mount the boot_partition
+  ansible.builtin.shell: mount {{ boot_partition }} /mnt/boot/efi
+
+- name: Create swap mount point
+  ansible.builtin.shell: swapon {{ swap_partition }}

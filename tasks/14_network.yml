@@ -1,0 +1,17 @@
+---
+- name: Setup hostname
+  ansible.builtin.shell: |
+    echo '{{ hostname }}'  > /etc/hostname
+    echo '127.0.0.1 {{ user_name }}domain {{ hostname }}' >> /etc/hosts
+
+- name: Install network manager and qualcomm drivers
+  ansible.builtin.apt:
+    pkg:
+    - network-manager
+    - firmware-atheros
+    state: present
+
+- name: Enable network manager service
+  ansible.builtin.shell: |
+    sudo systemctl start networking.service
+    sudo systemctl enable NetworkManager.service

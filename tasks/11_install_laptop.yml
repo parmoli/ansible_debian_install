@@ -1,0 +1,8 @@
+---
+- name: Install laptop utilities
+  ansible.builtin.apt:
+    pkg:
+    - task-laptop
+    - powertop
+    - linux-cpupower
+    state: present

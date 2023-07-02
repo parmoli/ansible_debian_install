@@ -1,0 +1,31 @@
+---
+# Unmount eventual mounted partitions
+- name: Try to unmount all target device partitions. Ignore erros if already unmounted
+  ansible.builtin.shell: umount -qR /mnt
+  ignore_errors: yes
+
+- name: Desactivate swap on swap_partition if enabled
+  ansible.builtin.shell: swapoff -a
+  ignore_errors: yes
+
+# Create partitions on target drive
+- name: Format the drive using gpt partition table
+  ansible.builtin.shell: parted -s {{ target_device }} mklabel gpt
+
+- name: Create EFI partition (1GB)
+  ansible.builtin.shell: parted -s {{ target_device }} mkpart "EFI" fat32 1MiB 1Gb
+
+- name: Set boot flag for the EFI partition
+  ansible.builtin.shell: parted -s {{ target_device }} set 1 esp on
+
+- name: Create Swap Partition (16GB)
+  ansible.builtin.shell: parted -s {{ target_device }} mkpart "SWAP" linux-swap 1Gb 17Gb
+
+- name: Create btrfs root partition
+  ansible.builtin.shell: parted -s {{ target_device }}  mkpart "root" btrfs 17Gb 100%
+
+# TODO: create crypted partition
+# cryptsetup -y -v --type luks2 luksFormat --label Debian_Sid /dev/nvme0n1p3
+# cryptsetup open /dev/nvme0n1p2 cryptroot
+# <passphrase>
+# mkfs.btrfs /dev/mapper/cryptroot

@@ -1,0 +1,11 @@
+---
+- name: Install the linux environment
+  ansible.builtin.apt:
+    pkg:
+    - linux-headers-amd64
+    - linux-image-amd64
+    - firmware-linux
+    - firmware-linux-nonfree
+    - firmware-iwlwifi
+    - sudo
+    state: present

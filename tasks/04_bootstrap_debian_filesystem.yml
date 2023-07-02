@@ -1,0 +1,8 @@
+---
+- name: Bootstrap a base system
+  ansible.builtin.shell: debootstrap --verbose --include=python3 --arch amd64 stable /mnt
+  #ansible.builtin.shell: debootstrap --verbose --no-check-gpg --arch amd64 bookworm /mnt file:/run/live/medium
+
+# TODO
+# - name: Create a child subvolume for /var/log
+#   ansible.builtin.shell: btrfs subvolume create /mnt/var/log

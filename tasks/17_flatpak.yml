@@ -1,0 +1,11 @@
+---
+- name: Install flatpak
+  ansible.builtin.apt:
+    pkg:
+    - flatpak
+    - plasma-discover-backend-flatpak
+    state: present
+
+- name: Add flathub as main flatpak repo
+  ansible.builtin.shell: |
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo

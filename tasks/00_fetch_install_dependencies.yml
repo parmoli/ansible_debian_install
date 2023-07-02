@@ -1,0 +1,7 @@
+---
+- name: Fetch necessary packages for the install process
+  ansible.builtin.apt:
+    pkg:
+    - debootstrap
+    - arch-install-scripts
+    state: present

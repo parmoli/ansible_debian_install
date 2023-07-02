@@ -1,0 +1,56 @@
+---
+- name: Prepare target drive for installation and bootstrap a linux filesystem on root partition
+  hosts: localhost
+  gather_facts: false
+  become: true
+  vars_files:
+    - vars.yml
+  tasks:
+    - import_tasks: tasks/00_fetch_install_dependencies.yml
+    - import_tasks: tasks/01_disk_partitioning.yml
+    - import_tasks: tasks/02_disk_get_partitions_names.yml
+    - import_tasks: tasks/03_disk_btrfs_subvolumes.yml
+    - import_tasks: tasks/04_bootstrap_debian_filesystem.yml
+    - import_tasks: tasks/05_prepare_chroot.yml
+
+- name: Install linux kernel, utils and a desktop environment
+  hosts: chrootdir
+  connection: chroot
+  gather_facts: false
+  become: true
+  vars_files:
+    - vars.yml
+  tasks:
+    - import_tasks: tasks/06_config_apt.yml
+    - import_tasks: tasks/07_config_locales.yml
+    - import_tasks: tasks/08_install_kernel.yml
+    - import_tasks: tasks/09_install_utils.yml
+    - import_tasks: tasks/10_install_desktop.yml
+    - import_tasks: tasks/11_install_laptop.yml
+
+- name: Configurate necessary components (user,bootloader,network,swap)
+  hosts: chrootdir
+  connection: chroot
+  gather_facts: false
+  become: true
+  vars_files:
+    - vars.yml
+  tasks:
+    - import_tasks: tasks/12_users.yml
+    - import_tasks: tasks/13_bootloader.yml
+    - import_tasks: tasks/14_network.yml
+    - import_tasks: tasks/15_zramswap.yml
+
+- name: Install extra software and utils
+  hosts: chrootdir
+  connection: chroot
+  gather_facts: false
+  become: true
+  vars_files:
+    - vars.yml
+  tasks:
+    - import_tasks: tasks/16_timeshift.yml
+    - import_tasks: tasks/17_flatpak.yml
+    - import_tasks: tasks/18_liquorix_kernel.yml
+    - import_tasks: tasks/19_fonts.yml
+    - import_tasks: tasks/20_zsh.yml

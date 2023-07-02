@@ -1,0 +1,9 @@
+---
+- name: Setup package mirror list (/etc/apt/sources.list)
+  copy:
+    src: sources.list
+    dest: /etc/apt/sources.list
+
+- name: Update apt cache and mirrors
+  ansible.builtin.apt:
+    update_cache: yes

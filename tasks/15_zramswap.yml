@@ -1,0 +1,21 @@
+---
+- name: Install zram tools
+  ansible.builtin.apt:
+    pkg:
+    - zram-tools
+    state: present
+
+- name: Edit zram config file
+  ansible.builtin.shell: |
+    sed -i -e 's/#ALGO=lz4/ALGO=lz4/' /etc/default/zramswap
+    sed -i -e 's/#PERCENT=50/PERCENT=50/' /etc/default/zramswap
+    sed -i -e 's/#PRIORITY=100/PRIORITY=100/' /etc/default/zramswap
+
+- name: Enable and start zramswap service
+  ansible.builtin.shell: |
+    sudo systemctl enable zramswap.service
+    sudo systemctl start zramswap.service
+
+- name: Fix swap partition priority
+  ansible.builtin.shell: |
+    sed -i -E 's/swap(\s+)defaults/swap\1pri=2/' /etc/fstab

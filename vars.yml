@@ -1,0 +1,21 @@
+---
+## DISK
+# Select the drive to install the system on
+# Use lsbk or fdisk -l to get information on available devices
+# Encryption is not implemented yet
+target_device: /dev/nvme0n1
+# encryption_enabled: false
+# encryption_passphrase: myEncryptionPassPhrase
+
+## CONFIG
+timezone: Europe/Paris
+locale: fr_FR.UTF-8
+hostname: debianhost
+
+## PACKAGES
+# backport_enabled: false
+# laptop_packages: false
+
+## USER
+user_name: debian
+user_password: debian

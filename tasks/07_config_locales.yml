@@ -1,0 +1,22 @@
+---
+- name: Setup timezone
+  ansible.builtin.shell: |
+    ln -fs /usr/share/zoneinfo/'{{ timezone }}' /etc/localtime
+    dpkg-reconfigure --frontend=noninteractive tzdata
+
+- name: Install locales package
+  ansible.builtin.apt:
+    pkg:
+    - locales
+    state: present
+
+- name: Setup locale
+  ansible.builtin.shell: |
+    sed -i -e 's/# {{ locale }} UTF-8/{{ locale }} UTF-8/' /etc/locale.gen
+    locale-gen
+    echo "export LC_ALL={{ locale }}" >> ~/.bashrc
+    echo "export LANG={{ locale }}" >> ~/.bashrc
+    echo "export LANGUAGE={{ locale }}" >> ~/.bashrc
+    source ~/.bashrc
+    echo 'LANG="{{ locale }}"'>/etc/default/locale
+    dpkg-reconfigure --frontend=noninteractive locales

@@ -1,0 +1,6 @@
+---
+- name: Install desktop environment
+  ansible.builtin.apt:
+    pkg:
+    - kde-plasma-desktop
+    state: present

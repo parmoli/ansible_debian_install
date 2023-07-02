@@ -1,0 +1,14 @@
+---
+- name: Install grub and other bootloader utils
+  ansible.builtin.apt:
+    pkg:
+    - efibootmgr
+    - btrfs-progs
+    - grub-efi
+    # - cryptsetup-initramfs
+    state: present
+
+- name: Initialize grub config
+  ansible.builtin.shell: |
+    grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=debian --recheck --no-nvram --removable
+    update-grub
