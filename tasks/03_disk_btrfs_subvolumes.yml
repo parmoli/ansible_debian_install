@@ -1,7 +1,5 @@
 ---
-# Create btrfs subvolumes
 - name: Temporary mount the btrfs partition
-# ansible.builtin.shell: mount "{{ disk_name }}p3" /mnt
   ansible.posix.mount:
     path: /mnt
     src: '{{ root_partition }}'
