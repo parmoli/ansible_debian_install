@@ -12,6 +12,5 @@
     - curl
     - wget
     - alacritty
-    - zsh
     - vim
     state: present
