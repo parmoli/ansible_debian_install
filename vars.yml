@@ -11,6 +11,7 @@ target_device: /dev/nvme0n1
 timezone: Europe/Paris
 locale: fr_FR.UTF-8
 hostname: debianhost
+domain: debiandomain
 
 ## PACKAGES
 # backport_enabled: false
