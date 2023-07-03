@@ -1,6 +1,6 @@
 DESCRIPTION
 
-Playbook to install debian on a disk from a live image. The code is very raw and only useful for educational purpose. Ansible was only used for readability and organisation (few Ansible modules were actually used, it's mostly used as a shell wrapper).
+Playbook to install debian on a disk from a live image. The code is very raw and only useful for educational purpose. Ansible was only used for readability and organisation (mostly used as a shell wrapper).
 
 HOW TO USE
 
