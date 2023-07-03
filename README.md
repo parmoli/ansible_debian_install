@@ -12,18 +12,19 @@ sudo apt install ansible git
 - Clone this repo to the live env
 ```
 git clone https://github.com/parmoli/ansible_debian_install
+cd ansible_debian_install
 ```
 - Edit vars.yml to setup varibles
 ```
-nano ansible_debian_install/vars.yml
+nano vars.yml
 ```
 - Edit main.yml to comment unecessary tasks
 ```
-nano ansible_debian_install/main.yml
+nano main.yml
 ```  
 - Run the playbook (with sudo for chroot connexions)
 ```
-sudo ansible-playbook ansible_debian_install/main.yml
+sudo ansible-playbook main.yml
 ```
 
 TODO
