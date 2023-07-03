@@ -1,5 +1,5 @@
 ---
-- name: Install the linux environment
+- name: Install useful packages
   ansible.builtin.apt:
     pkg:
     - command-not-found
