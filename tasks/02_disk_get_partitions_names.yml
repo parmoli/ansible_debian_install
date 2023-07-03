@@ -1,24 +1,14 @@
 ---
-- name: Get root partition name
-  ansible.builtin.shell: lsblk {{ target_device }} -ln -o name,fstype | grep btrfs | cut -f 1 -d " "
-  register: root_partition_output
+- name: List partitions on target device
+  ansible.builtin.shell: lsblk {{ target_device }} -ln -o name
+  register: partition_output
 
-- name: Save root partition name
+- name: Split the results in a table
   ansible.builtin.set_fact:
-    root_partition: '/dev/{{ root_partition_output.stdout }}'
+    partition_output_table: "{{ partition_output.stdout| split('\n') }}"
 
-- name: Get boot partition name
-  ansible.builtin.shell: lsblk {{ target_device }} -ln -o name,fstype | grep vfat | cut -f 1 -d " "
-  register: boot_partition_output
-
-- name: Save boot partition name
+- name: Save partition names
   ansible.builtin.set_fact:
-    boot_partition: '/dev/{{ boot_partition_output.stdout }}'
-
-- name: Get swap partition name
-  ansible.builtin.shell: lsblk {{ target_device }} -ln -o name,fstype | grep swap | cut -f 1 -d " "
-  register: swap_partition_output
-
-- name: Save swap partition name
-  ansible.builtin.set_fact:
-    swap_partition: '/dev/{{ swap_partition_output.stdout }}'
+    boot_partition: "/dev/{{ partition_output_table[1] }}"
+    swap_partition: "/dev/{{ partition_output_table[2] }}"
+    root_partition: "/dev/{{ partition_output_table[3] }}"

@@ -11,7 +11,7 @@
   register: subvolumes_list
 
 - name: Delete eventual existing btrfs subvolumes
-  ansible.builtin.shell: btrfs subvolume delete /mnt/{{ item | regex_search("@\w*") }}
+  ansible.builtin.shell: btrfs subvolume delete -c /mnt/{{ item | regex_search("@\w*") }}
   loop: '{{ subvolumes_list.stdout_lines }}'
 
 - name: Create btrfs subvolumes
