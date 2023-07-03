@@ -18,7 +18,7 @@ cd ansible_debian_install
 ```
 nano vars.yml
 ```
-- Edit main. Yml to comment unnecessary tasks
+- Edit main.yml to comment unnecessary tasks
 ```
 nano main.yml
 ```  
