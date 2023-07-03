@@ -1,11 +1,11 @@
 DESCRIPTION
 
-Playbook to install debian on a system from a live image. Code is very raw and only useful for educationnal purpose. Ansible was only used for readability and organisation (few ansible modules were actually used, its mostly used as a shell wrapper).
+Playbook to install debian on a system from a live image. The code is very raw and only useful for educational purpose. Ansible was only used for readability and organisation (few Ansible modules were actually used, it's mostly used as a shell wrapper).
 
 HOW TO USE
 
-- Boot a debian 12 live environment and connect to internet
-- Install ansible and git on the live environment
+- Boot a debian 12 live environment and connect to the internet
+- Install Ansible and git on the live environment
 ```
 sudo apt install ansible git
 ```
@@ -14,11 +14,11 @@ sudo apt install ansible git
 git clone https://github.com/parmoli/ansible_debian_install
 cd ansible_debian_install
 ```
-- Edit vars.yml to setup varibles
+- Edit vars.yml to setup variables
 ```
 nano vars.yml
 ```
-- Edit main.yml to comment unecessary tasks
+- Edit main. Yml to comment unnecessary tasks
 ```
 nano main.yml
 ```  
