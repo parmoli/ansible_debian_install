@@ -8,7 +8,7 @@
   tasks:
     - import_tasks: tasks/00_fetch_install_dependencies.yml
     - import_tasks: tasks/01_disk_partitioning.yml
-    - import_tasks: tasks/02_disk_get_partitions_names.yml
+    - import_tasks: tasks/02_disk_format_partitions.yml
     - import_tasks: tasks/03_disk_btrfs_subvolumes.yml
     - import_tasks: tasks/04_bootstrap_debian_filesystem.yml
     - import_tasks: tasks/05_prepare_chroot.yml
