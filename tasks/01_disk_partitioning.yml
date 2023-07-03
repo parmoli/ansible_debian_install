@@ -30,9 +30,3 @@
 # cryptsetup open /dev/nvme0n1p2 cryptroot
 # <passphrase>
 # mkfs.btrfs /dev/mapper/cryptroot
-
-- name: Format partitions
-  ansible.builtin.shell: |
-    mkfs.fat -F 32 -n EFI {{ target_device }}p1
-    mkswap {{ target_device }}p2
-    mkfs.btrfs --force {{ target_device }}p3

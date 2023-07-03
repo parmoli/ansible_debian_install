@@ -1,0 +1,21 @@
+---
+- name: List partitions on target device
+  ansible.builtin.shell: lsblk {{ target_device }} -ln -o name
+  register: partition_output
+
+- name: Split the results in a table
+  ansible.builtin.set_fact:
+    partition_output_table: "{{ partition_output.stdout| split('\n') }}"
+
+- name: Save partition names
+  ansible.builtin.set_fact:
+    boot_partition: "/dev/{{ partition_output_table[1] }}"
+    swap_partition: "/dev/{{ partition_output_table[2] }}"
+    root_partition: "/dev/{{ partition_output_table[3] }}"
+
+
+- name: Format partitions
+  ansible.builtin.shell: |
+    mkfs.fat -F 32 -n EFI {{ boot_partition }}
+    mkswap {{ swap_partition }}
+    mkfs.btrfs --force {{ root_partition }}
