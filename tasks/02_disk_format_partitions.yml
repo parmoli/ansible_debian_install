@@ -13,7 +13,6 @@
     swap_partition: "/dev/{{ partition_output_table[2] }}"
     root_partition: "/dev/{{ partition_output_table[3] }}"
 
-
 - name: Format partitions
   ansible.builtin.shell: |
     mkfs.fat -F 32 -n EFI {{ boot_partition }}
